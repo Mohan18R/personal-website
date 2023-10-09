@@ -588,9 +588,7 @@ label {
 .btn-send:hover {
   background-color: #0099cc; /* Darker blue color on hover */
 }
-.bi-twitter-x {
-  font-size: .8rem; /* Adjust the size as needed */
-}
+
 /* Add this CSS in your stylesheet or in a <style> tag in the HTML document */
 .profile-image {
   max-width: 100px; /* Set the maximum width for the profile images */
@@ -737,4 +735,15 @@ label {
 .contact .info .phone:hover i {
   background: #149ddd;
   color: #fff;
+}
+/* styles.css */
+
+/* Center align the entire footer */
+.social-links {
+  text-align: center;
+}
+
+.social-links a {
+  font-size: 34px; /* You can adjust the size as needed */
+  margin: 0 10px; /* Adjust the margin for spacing between icons */
 }
