@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -84,7 +84,7 @@
   /**
    * Mobile nav toggle
    */
-  on('click', '.mobile-nav-toggle', function(e) {
+  on('click', '.mobile-nav-toggle', function (e) {
     select('body').classList.toggle('mobile-nav-active');
     this.classList.toggle('bi-list');
     this.classList.toggle('bi-x');
@@ -93,7 +93,7 @@
   /**
    * Scroll with offset on links with a class name .scrollto
    */
-  on('click', '.scrollto', function(e) {
+  on('click', '.scrollto', function (e) {
     if (select(this.hash)) {
       e.preventDefault();
 
@@ -143,7 +143,7 @@
     new Waypoint({
       element: skillsContent,
       offset: '80%',
-      handler: function(direction) {
+      handler: function (direction) {
         let progress = select('.progress .progress-bar', true);
         progress.forEach((el) => {
           el.style.width = el.getAttribute('aria-valuenow') + '%';
