@@ -2,10 +2,6 @@
 
 Welcome to my personal website! This project serves as a platform to showcase my skills and knowledge in web development, particularly in the areas of HTML, CSS, JavaScript, and various CSS and JavaScript libraries.
 
-#About the Project
-
-This website is a labor of love, crafted to not only display my abilities but also to share my passion for web development and technology. It reflects my journey of learning and experimenting with web technologies and design principles.
-
 #Key Features
 
 HTML: The foundation of this website is built on HTML, ensuring a structured and semantic layout for accessibility and search engine optimization.
