@@ -775,3 +775,6 @@ label {
   margin: 0 10px;
   /* Adjust the margin for spacing between icons */
 }
+a.underline{
+  text-decoration: underline;
+}
