@@ -151,6 +151,18 @@
       }
     });
   }
+  fetch('/visitor-count')
+  .then(response => response.json())
+  .then(data => {
+    // Update the visitor count on the web page
+    document.getElementById('visitor-count').textContent = `profile views: ${data.count}`;
+  })
+  .catch(error => {
+    console.error('Failed to fetch visitor count:', error);
+  });
+
+
+
 
   /**
    * Animation on scroll
@@ -171,36 +183,3 @@
 
 })();
 
-  // Function to increment and display the view count
-  function incrementAndViewCount() {
-    // Check if the viewCount key exists in local storage
-    if (localStorage.getItem('viewCount') === null) {
-      localStorage.setItem('viewCount', 1);
-    } else {
-      // Increment the view count
-      const currentCount = parseInt(localStorage.getItem('viewCount'));
-      localStorage.setItem('viewCount', currentCount + 1);
-    }
-
-    // Display the view count
-    const viewCountElement = document.getElementById('view-count');
-    viewCountElement.textContent = `Profile Views: ${localStorage.getItem('viewCount')}`;
-  }
-
-  // Call the function when the page loads
-  window.addEventListener('load', incrementAndViewCount);
-
-// // Function to reset the view count to 0
-// function resetViewCount() {
-//   localStorage.setItem('viewCount', 0);
-
-//   // Display the view count
-//   const viewCountElement = document.getElementById('view-count');
-//   viewCountElement.textContent = `Profile Views: ${localStorage.getItem('viewCount')}`;
-// }
-
-// // Call the function to reset the count only once
-// resetViewCount();
-
-// // After resetting, you can remove the function to prevent further resets
-//  window.removeEventListener('load', resetViewCount);

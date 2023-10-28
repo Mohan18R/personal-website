@@ -764,13 +764,8 @@ a.underline {
   text-decoration: underline;
 }
 
-/* profile views */
-.profile-views span {
+#visitor-count {
+  text-align: center;
   color: #149ddd;
   font-weight: bold;
-}
-
-.profile-views i.bx.bxs-user,
-.profile-views span {
-  color: #149ddd;
 }
