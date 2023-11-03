@@ -1,9 +1,7 @@
 (function () {
   "use strict";
 
-  /**
-   * Easy selector helper function
-   */
+  // Helper function for selecting elements
   const select = (el, all = false) => {
     el = el.trim();
     if (all) {
@@ -13,9 +11,7 @@
     }
   };
 
-  /**
-   * Easy event listener function
-   */
+  // Helper function for adding event listeners
   const on = (type, el, listener, all = false) => {
     let selectEl = select(el, all);
     if (selectEl) {
@@ -27,16 +23,12 @@
     }
   };
 
-  /**
-   * Easy on scroll event listener 
-   */
+  // Event listener for scrolling
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener);
   };
 
-  /**
-   * Navbar links active state on scroll
-   */
+  // Function to set active state for navbar links on scroll
   let navbarlinks = select('#navbar .scrollto', true);
   const navbarlinksActive = () => {
     let position = window.scrollY + 200;
@@ -54,9 +46,7 @@
   window.addEventListener('load', navbarlinksActive);
   onscroll(document, navbarlinksActive);
 
-  /**
-   * Scrolls to an element with header offset
-   */
+  // Function to scroll to an element with header offset
   const scrollto = (el) => {
     let elementPos = select(el).offsetTop;
     window.scrollTo({
@@ -65,9 +55,7 @@
     });
   };
 
-  /**
-   * Back to top button
-   */
+  // Back to top button functionality
   let backtotop = select('.back-to-top');
   if (backtotop) {
     const toggleBacktotop = () => {
@@ -81,22 +69,17 @@
     onscroll(document, toggleBacktotop);
   }
 
-  /**
-   * Mobile nav toggle
-   */
+  // Mobile navigation toggle
   on('click', '.mobile-nav-toggle', function (e) {
     select('body').classList.toggle('mobile-nav-active');
     this.classList.toggle('bi-list');
     this.classList.toggle('bi-x');
   });
 
-  /**
-   * Scroll with offset on links with a class name .scrollto
-   */
+  // Scroll with offset on links with class .scrollto
   on('click', '.scrollto', function (e) {
     if (select(this.hash)) {
       e.preventDefault();
-
       let body = select('body');
       if (body.classList.contains('mobile-nav-active')) {
         body.classList.remove('mobile-nav-active');
@@ -108,9 +91,7 @@
     }
   }, true);
 
-  /**
-   * Scroll with offset on page load with hash links in the URL
-   */
+  // Scroll with offset on page load with hash links in the URL
   window.addEventListener('load', () => {
     if (window.location.hash) {
       if (select(window.location.hash)) {
@@ -119,9 +100,7 @@
     }
   });
 
-  /**
-   * Hero type effect
-   */
+  // Hero type effect initialization
   const typed = select('.typed');
   if (typed) {
     let typed_strings = typed.getAttribute('data-typed-items');
@@ -135,9 +114,7 @@
     });
   }
 
-  /**
-   * Skills animation
-   */
+  // Skills animation using Waypoint
   let skillsContent = select('.skills-content');
   if (skillsContent) {
     new Waypoint({
@@ -151,22 +128,8 @@
       }
     });
   }
-  fetch('/visitor-count')
-  .then(response => response.json())
-  .then(data => {
-    // Update the visitor count on the web page
-    document.getElementById('visitor-count').textContent = `profile views: ${data.count}`;
-  })
-  .catch(error => {
-    console.error('Failed to fetch visitor count:', error);
-  });
 
-
-
-
-  /**
-   * Animation on scroll
-   */
+  // Animation on scroll using AOS library
   window.addEventListener('load', () => {
     AOS.init({
       duration: 1000,
@@ -175,11 +138,4 @@
       mirror: false
     });
   });
-
-  /**
-   * Initiate Pure Counter 
-   */
-  new PureCounter();
-
 })();
-
