@@ -736,6 +736,9 @@ label {
   transition: 0.3s;
   margin-right: 10px;
 }
+.twitter i {
+  font-size: .8em; /* Adjust the font size as needed */
+}
 
 .contact .info .social-links a:hover {
   background: #149ddd;
