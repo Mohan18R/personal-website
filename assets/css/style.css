@@ -379,7 +379,7 @@ section {
 /*--------------------------------------------------------------
 # Skills
 --------------------------------------------------------------*/
-.skills .progress {
+/* .skills .progress {
   height: 60px;
   display: block;
   background: none;
@@ -411,7 +411,7 @@ section {
   height: 10px;
   transition: 0.9s;
   background-color: #149ddd;
-}
+} */
 
 /*--------------------------------------------------------------
 # Resume
@@ -643,11 +643,9 @@ label {
   display: block;
 }
 
-
 .coding-profiles {
 
   padding: 60px 0;
-
 
   .profile {
     text-align: center;
@@ -714,13 +712,13 @@ label {
   color: #173b6c;
 }
 
-.contact .info .email p {
+/* .contact .info .email p {
   padding-top: 5px;
 }
 
 .contact .info .social-links {
   padding-left: 60px;
-}
+} */
 
 .contact .info .social-links a {
   font-size: 18px;
@@ -736,8 +734,13 @@ label {
   transition: 0.3s;
   margin-right: 10px;
 }
+
 .twitter i {
-  font-size: .8em; /* Adjust the font size as needed */
+  font-size: .7em;
+}
+
+.twitter-x i {
+  font-size: .8em;
 }
 
 .contact .info .social-links a:hover {
@@ -752,18 +755,15 @@ label {
   color: #fff;
 }
 
-
 .social-links {
   text-align: center;
 }
 
 .social-links a {
   font-size: 34px;
-
   margin: 0 10px;
 }
 
 a.underline {
   text-decoration: underline;
 }
-
