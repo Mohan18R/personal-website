@@ -128,6 +128,17 @@
       }
     });
   }
+  $(document).ready(function() {
+    $.getJSON("https://api.counterapi.dev/v1/mohan18r_personal_website/visits/up", function(response) {
+        $("#visits").text(response.count);
+    }).fail(function(jqxhr, textStatus, error) {
+        let err = textStatus + ", " + error;
+        console.error("Request Failed: " + err);
+        $("#visits").text("Error loading count");
+    });
+});
+
+
 
   // Animation on scroll using AOS library
   window.addEventListener('load', () => {
