@@ -787,3 +787,88 @@ a.underline {
       font-size: 1.5rem;
   }
 }
+
+/* Portfolio */
+
+.card-img-top {
+  height: 600px; /* Default height for medium and larger screens */
+  object-fit: cover; /* Ensure the image covers the space without distortion */
+}
+
+.card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px;
+  color: white; /* White text for better contrast */
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  padding: 20px;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  overflow: hidden; /* Hide any overflow */
+}
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 992px) {
+  .card-img-top {
+    height: 300px; /* Adjust height for tablets and smaller devices */
+  }
+
+  .card-body {
+    padding: 30px; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 250px; /* Smaller height for mobile devices */
+  }
+
+  .card-body {
+    padding: 20px; /* Further reduce padding for mobile */
+  }
+}
+
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 200px; /* Smallest height for very small screens */
+  }
+
+  .card-body {
+    padding: 15px; /* Minimum padding for small screens */
+  }
+
+  .overlay {
+    padding: 15px; /* Adjust overlay padding for small screens */
+  }
+}
+
+/* resume download */
+  .custom-btn {
+    background-color: white;
+    color: #149ddd;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #149ddd;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .custom-btn:hover {
+    background-color: #149ddd;
+    color: white;
+  }
+  
