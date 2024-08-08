@@ -129,7 +129,7 @@
     });
   }
   $(document).ready(function() {
-    $.getJSON("https://api.counterapi.dev/v1/mohan18r_personal_website/visits/up", function(response) {
+    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function(response) {
         $("#visits").text(response.count);
     }).fail(function(jqxhr, textStatus, error) {
         let err = textStatus + ", " + error;
