@@ -1,112 +1,40 @@
-(function () {
+$(function () {
   "use strict";
 
-  // Helper function for selecting elements
-  const select = (el, all = false) => {
-    el = el.trim();
-    if (all) {
-      return [...document.querySelectorAll(el)];
-    } else {
-      return document.querySelector(el);
-    }
-  };
-
-  // Helper function for adding event listeners
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all);
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener));
-      } else {
-        selectEl.addEventListener(type, listener);
-      }
-    }
-  };
-
-  // Event listener for scrolling
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener);
-  };
-
-  // Function to set active state for navbar links on scroll
-  let navbarlinks = select('#navbar .scrollto', true);
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200;
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return;
-      let section = select(navbarlink.hash);
-      if (!section) return;
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active');
-      } else {
-        navbarlink.classList.remove('active');
-      }
-    });
-  };
-  window.addEventListener('load', navbarlinksActive);
-  onscroll(document, navbarlinksActive);
-
-  // Function to scroll to an element with header offset
-  const scrollto = (el) => {
-    let elementPos = select(el).offsetTop;
-    window.scrollTo({
-      top: elementPos,
-      behavior: 'smooth'
-    });
-  };
-
-  // Back to top button functionality
-  let backtotop = select('.back-to-top');
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active');
-      } else {
-        backtotop.classList.remove('active');
-      }
-    };
-    window.addEventListener('load', toggleBacktotop);
-    onscroll(document, toggleBacktotop);
-  }
-
-  // Mobile navigation toggle
-  on('click', '.mobile-nav-toggle', function (e) {
-    select('body').classList.toggle('mobile-nav-active');
-    this.classList.toggle('bi-list');
-    this.classList.toggle('bi-x');
+  // Smooth scrolling for navigation links
+  $('a.scrollto').on('click', function (e) {
+    e.preventDefault();
+    const target = $(this).attr('href');
+    $('html, body').animate({
+      scrollTop: $(target).offset().top
+    }, 800, 'swing');
   });
 
-  // Scroll with offset on links with class .scrollto
-  on('click', '.scrollto', function (e) {
-    if (select(this.hash)) {
-      e.preventDefault();
-      let body = select('body');
-      if (body.classList.contains('mobile-nav-active')) {
-        body.classList.remove('mobile-nav-active');
-        let navbarToggle = select('.mobile-nav-toggle');
-        navbarToggle.classList.toggle('bi-list');
-        navbarToggle.classList.toggle('bi-x');
-      }
-      scrollto(this.hash);
+  // Back to top button functionality
+  $(window).on('scroll', function () {
+    if ($(this).scrollTop() > 100) {
+      $('.back-to-top').addClass('active');
+    } else {
+      $('.back-to-top').removeClass('active');
     }
-  }, true);
+  });
+  $('.back-to-top').on('click', function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+      scrollTop: 0
+    }, 800, 'swing');
+  });
 
-  // Scroll with offset on page load with hash links in the URL
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash);
-      }
-    }
+  // Mobile navigation toggle
+  $('.mobile-nav-toggle').on('click', function (e) {
+    $('body').toggleClass('mobile-nav-active');
+    $(this).toggleClass('bi-list bi-x');
   });
 
   // Hero type effect initialization
-  const typed = select('.typed');
-  if (typed) {
-    let typed_strings = typed.getAttribute('data-typed-items');
-    typed_strings = typed_strings.split(',');
+  if ($('.typed').length) {
     new Typed('.typed', {
-      strings: typed_strings,
+      strings: $('.typed').data('typed-items').split(','),
       loop: true,
       typeSpeed: 100,
       backSpeed: 50,
@@ -115,38 +43,46 @@
   }
 
   // Skills animation using Waypoint
-  let skillsContent = select('.skills-content');
-  if (skillsContent) {
+  if ($('.skills-content').length) {
     new Waypoint({
-      element: skillsContent,
+      element: $('.skills-content')[0],
       offset: '80%',
       handler: function (direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%';
+        $('.progress .progress-bar').each(function () {
+          $(this).css('width', $(this).attr('aria-valuenow') + '%');
         });
       }
     });
   }
-  $(document).ready(function() {
-    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function(response) {
-        $("#visits").text(response.count);
-    }).fail(function(jqxhr, textStatus, error) {
-        let err = textStatus + ", " + error;
-        console.error("Request Failed: " + err);
-        $("#visits").text("Error loading count");
-    });
-});
 
-
+  // Website visit counter
+  $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function (response) {
+    $("#visits").text(response.count);
+  }).fail(function (jqxhr, textStatus, error) {
+    console.error("Request Failed: " + textStatus + ", " + error);
+    $("#visits").text("Error loading count");
+  });
 
   // Animation on scroll using AOS library
-  window.addEventListener('load', () => {
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
+  AOS.init({
+    duration: 1000,
+    easing: 'ease-in-out',
+    once: true,
+    mirror: false
   });
-})();
+});
+
+// Set active state for navbar links on scroll
+$(window).on('scroll', function () {
+  const position = $(this).scrollTop() + 200;
+  $('#navbar .scrollto').each(function () {
+    const section = $(this.hash);
+    if (section.length) {
+      if (position >= section.offset().top && position <= (section.offset().top + section.outerHeight())) {
+        $(this).addClass('active');
+      } else {
+        $(this).removeClass('active');
+      }
+    }
+  });
+});
