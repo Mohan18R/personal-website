@@ -1,24 +1,57 @@
 $(function () {
   "use strict";
 
+  // Cache DOM elements
+  const $backToTop = $('.back-to-top');
+  const $window = $(window);
+
   // Smooth scrolling for navigation links
+  function smoothScroll(target) {
+    $('html, body').animate({
+      scrollTop: $(target).offset().top
+    }, {
+      duration: 800,
+      easing: 'swing',
+      complete: function () {
+        requestAnimationFrame(smoothScroll);
+      }
+    });
+  }
+
   $('a.scrollto').on('click', function (e) {
     e.preventDefault();
     const target = $(this).attr('href');
-    $('html, body').animate({
-      scrollTop: $(target).offset().top
-    }, 800, 'swing');
+    smoothScroll(target);
   });
 
-  // Back to top button functionality
-  $(window).on('scroll', function () {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').addClass('active');
-    } else {
-      $('.back-to-top').removeClass('active');
-    }
+  // Back to top button functionality with debouncing scroll events
+  let scrollTimeout;
+  $window.on('scroll', function () {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function () {
+      // Back to top button
+      if ($window.scrollTop() > 100) {
+        $backToTop.addClass('active');
+      } else {
+        $backToTop.removeClass('active');
+      }
+
+      // Set active state for navbar links on scroll
+      const position = $window.scrollTop() + 200;
+      $('#navbar .scrollto').each(function () {
+        const section = $(this.hash);
+        if (section.length) {
+          if (position >= section.offset().top && position <= section.offset().top + section.outerHeight()) {
+            $(this).addClass('active');
+          } else {
+            $(this).removeClass('active');
+          }
+        }
+      });
+    }, 50); // Adjust the timeout as needed
   });
-  $('.back-to-top').on('click', function (e) {
+
+  $backToTop.on('click', function (e) {
     e.preventDefault();
     $('html, body').animate({
       scrollTop: 0
@@ -41,7 +74,6 @@ $(function () {
       backDelay: 2000
     });
   }
-
   // Skills animation using Waypoint
   if ($('.skills-content').length) {
     new Waypoint({
@@ -55,34 +87,19 @@ $(function () {
     });
   }
 
-  // Website visit counter
-  $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function (response) {
-    $("#visits").text(response.count);
-  }).fail(function (jqxhr, textStatus, error) {
-    console.error("Request Failed: " + textStatus + ", " + error);
-    $("#visits").text("Error loading count");
-  });
-
   // Animation on scroll using AOS library
   AOS.init({
-    duration: 1000,
+    duration: 800, // Reduced for better performance
     easing: 'ease-in-out',
     once: true,
     mirror: false
   });
-});
 
-// Set active state for navbar links on scroll
-$(window).on('scroll', function () {
-  const position = $(this).scrollTop() + 200;
-  $('#navbar .scrollto').each(function () {
-    const section = $(this.hash);
-    if (section.length) {
-      if (position >= section.offset().top && position <= (section.offset().top + section.outerHeight())) {
-        $(this).addClass('active');
-      } else {
-        $(this).removeClass('active');
-      }
-    }
+  // Uncomment the visitor counter code if needed, with error handling
+  $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function (response) {
+    $("#visits").text(response.count);
+  }).fail(function () {
+    $("#visits").text("0"); // Default fallback in case of failure
   });
+
 });
