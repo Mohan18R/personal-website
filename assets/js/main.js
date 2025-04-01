@@ -1,135 +1,151 @@
 $(function () {
   "use strict";
 
-  // Cache DOM elements
+  // Cache DOM elements once
+  const $body = $('body');
   const $backToTop = $('.back-to-top');
   const $window = $(window);
+  const $navbar = $('#navbar');
+  const $mobileNavToggle = $('.mobile-nav-toggle');
+  const $heroSection = $('#hero');
 
-  function smoothScroll(target) {
-    $('html, body').animate({
-      scrollTop: $(target).offset().top
-    }, 800, 'swing');
+  // Initialize critical UI elements immediately
+  function initializeCriticalUI() {
+    // Mobile navigation
+    $mobileNavToggle.on('click', function() {
+      $body.toggleClass('mobile-nav-active');
+      $(this).toggleClass('bi-list bi-x');
+    });
+
+    // Smooth scroll
+    function smoothScroll(target) {
+      if ($(target).length) {
+        const offset = $(target).offset().top - 30;
+        $('html, body').animate({
+          scrollTop: offset
+        }, 400, 'swing');
+      }
+    }
+
+    // Navigation click handler
+    $('.nav-link.scrollto').on('click', function(e) {
+      e.preventDefault();
+      const target = $(this).attr('href');
+      
+      if ($(target).length) {
+        $body.removeClass('mobile-nav-active');
+        $mobileNavToggle.toggleClass('bi-list bi-x');
+        smoothScroll(target);
+      }
+    });
+
+    // Back to top button
+    $backToTop.on('click', function(e) {
+      e.preventDefault();
+      $('html, body').animate({ scrollTop: 0 }, 400, 'swing');
+    });
   }
 
-  $(document).on('click', 'a.scrollto', function (e) {
-    e.preventDefault();
-    smoothScroll($(this).attr('href'));
-  });
-
-  // Back to top button functionality with efficient scroll handling
-  $window.on('scroll', function () {
-    requestIdleCallback(() => {
-      if ($window.scrollTop() > 100) {
-        $backToTop.addClass('active');
-      } else {
-        $backToTop.removeClass('active');
-      }
-
-      // Set active state for navbar links on scroll
-      const position = $window.scrollTop() + 200;
-      $('#navbar .scrollto').each(function () {
-        const section = $(this.hash);
-        if (section.length) {
-          $(this).toggleClass('active', position >= section.offset().top && position <= section.offset().top + section.outerHeight());
-        }
-      });
-    });
-  });
-
-  $backToTop.on('click', function (e) {
-    e.preventDefault();
-    $('html, body').animate({ scrollTop: 0 }, 800, 'swing');
-  });
-
-  // Mobile navigation toggle
-  $('.mobile-nav-toggle').on('click', function () {
-    $('body').toggleClass('mobile-nav-active');
-    $(this).toggleClass('bi-list bi-x');
-  });
-
-  // Hero type effect initialization (only if element exists)
-  if ($('.typed').length) {
-    setTimeout(() => {
+  // Initialize non-critical features after page load
+  function initializeNonCritical() {
+    // Typed.js initialization (only if element exists)
+    const $typed = $('.typed');
+    if ($typed.length) {
       new Typed('.typed', {
-        strings: $('.typed').data('typed-items').split(','),
+        strings: $typed.data('typed-items').split(','),
         loop: true,
         typeSpeed: 100,
         backSpeed: 50,
         backDelay: 2000
       });
-    }, 100);
-  }
+    }
 
-  // Skills animation using Waypoint (lazy load for better performance)
-  if ($('.skills-content').length) {
-    requestIdleCallback(() => {
-      new Waypoint({
-        element: $('.skills-content')[0],
-        offset: '80%',
-        handler: function () {
-          $('.progress .progress-bar').each(function () {
-            $(this).css('width', $(this).attr('aria-valuenow') + '%');
-          });
-        }
+    // Initialize AOS with optimized settings
+    AOS.init({
+      duration: 600,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false,
+      disable: 'mobile'
+    });
+
+    // About section tabs
+    $('.tab-btn').on('click', function() {
+      const tabId = $(this).attr('data-tab');
+      if ($('#' + tabId).length) {
+        $('.tab-btn').removeClass('active');
+        $('.tab-content').removeClass('active');
+        $(this).addClass('active');
+        $('#' + tabId).addClass('active');
+      }
+    });
+
+    // Lazy load visitor counter
+    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up")
+      .done(function(response) {
+        $("#visits").text(response.count);
+      })
+      .fail(function() {
+        $("#visits").text("0");
+      });
+
+    // Contact Form Submission
+    $("#contact-form").on("submit", function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "https://formspree.io/f/mblgawnw",
+        method: "POST",
+        data: $(this).serialize(),
+        dataType: "json"
+      })
+      .done(function() {
+        alert("Message sent successfully! ✅");
+        $("#contact-form")[0].reset();
+      })
+      .fail(function() {
+        alert("Failed to send message. Please try again later.");
       });
     });
   }
 
-  // Animation on scroll using AOS library (loaded asynchronously)
-  setTimeout(() => {
-    AOS.init({
-      duration: 600, // Reduced for better performance
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }, 200);
-
-  // About section tabs - FIXED VERSION
-  // Use jQuery approach since the rest of the file uses jQuery
-  $('.tab-btn').on('click', function() {
-    // Get the tab ID from the data-tab attribute
-    const tabId = $(this).attr('data-tab');
-    
-    // Check if the element exists
-    if ($('#' + tabId).length) {
-      // Remove active class from all buttons and tabs
-      $('.tab-btn').removeClass('active');
-      $('.tab-content').removeClass('active');
-      
-      // Add active class to clicked button and corresponding tab
-      $(this).addClass('active');
-      $('#' + tabId).addClass('active');
-    } else {
-      console.error('Tab content not found for ID:', tabId);
+  // Optimized scroll handler using requestAnimationFrame
+  let ticking = false;
+  function handleScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        const scrollPos = $window.scrollTop();
+        
+        // Update back to top button visibility
+        $backToTop.toggleClass('active', scrollPos > 100);
+        
+        // Update navbar active state
+        $('.nav-link.scrollto').each(function() {
+          const section = $($(this).attr('href'));
+          if (section.length) {
+            const sectionTop = section.offset().top - 100;
+            const sectionBottom = sectionTop + section.outerHeight();
+            $(this).toggleClass('active', scrollPos >= sectionTop && scrollPos < sectionBottom);
+          }
+        });
+        
+        ticking = false;
+      });
+      ticking = true;
     }
-  });
-  
-  // Lazy load visitor counter with error handling
-  requestIdleCallback(() => {
-    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function (response) {
-      $("#visits").text(response.count);
-    }).fail(function () {
-      $("#visits").text("0");
-    });
-  });
+  }
 
-  // Contact Form Submission using Formspree
-  $("#contact-form").on("submit", function (e) {
-    e.preventDefault(); // Prevent default form submission
+  // Attach scroll handler with throttling
+  $window.on('scroll', handleScroll);
 
-    $.ajax({
-      url: "https://formspree.io/f/mblgawnw", // Corrected Formspree URL
-      method: "POST",
-      data: $(this).serialize(),
-      dataType: "json",
-      success: function (response) {
-        alert("Message sent successfully! ✅");
-        $("#contact-form")[0].reset();
-      },
-      error: function () {
-        alert("Failed to send message. Please try again later.");
-      }
-    });
+  // Initialize critical UI immediately
+  initializeCriticalUI();
+
+  // Initialize non-critical features after window load
+  $window.on('load', function() {
+    // Remove any loading states
+    $body.removeClass('loading');
+    
+    // Initialize non-critical features
+    initializeNonCritical();
   });
 });
