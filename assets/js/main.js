@@ -7,23 +7,22 @@ $(function () {
   const $window = $(window);
   const $navbar = $('#navbar');
   const $mobileNavToggle = $('.mobile-nav-toggle');
-  const $heroSection = $('#hero');
 
-  // Initialize critical UI elements immediately
-  function initializeCriticalUI() {
+  // Initialize UI elements with balanced approach
+  function initializeUI() {
     // Mobile navigation
     $mobileNavToggle.on('click', function() {
       $body.toggleClass('mobile-nav-active');
       $(this).toggleClass('bi-list bi-x');
     });
 
-    // Smooth scroll
+    // Smooth scroll with slightly longer duration for smoother feel
     function smoothScroll(target) {
       if ($(target).length) {
         const offset = $(target).offset().top - 30;
         $('html, body').animate({
           scrollTop: offset
-        }, 400, 'swing');
+        }, 600, 'easeInOutQuad'); // Smoother easing
       }
     }
 
@@ -39,34 +38,10 @@ $(function () {
       }
     });
 
-    // Back to top button
+    // Back to top button with smoother animation
     $backToTop.on('click', function(e) {
       e.preventDefault();
-      $('html, body').animate({ scrollTop: 0 }, 400, 'swing');
-    });
-  }
-
-  // Initialize non-critical features after page load
-  function initializeNonCritical() {
-    // Typed.js initialization (only if element exists)
-    const $typed = $('.typed');
-    if ($typed.length) {
-      new Typed('.typed', {
-        strings: $typed.data('typed-items').split(','),
-        loop: true,
-        typeSpeed: 100,
-        backSpeed: 50,
-        backDelay: 2000
-      });
-    }
-
-    // Initialize AOS with optimized settings
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false,
-      disable: 'mobile'
+      $('html, body').animate({ scrollTop: 0 }, 700, 'easeInOutQuad');
     });
 
     // About section tabs
@@ -80,14 +55,29 @@ $(function () {
       }
     });
 
-    // Lazy load visitor counter
-    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up")
-      .done(function(response) {
-        $("#visits").text(response.count);
-      })
-      .fail(function() {
-        $("#visits").text("0");
+    // Initialize typing effect with slight delay for smoother start
+    const $typed = $('.typed');
+    if ($typed.length) {
+      setTimeout(function() {
+        new Typed('.typed', {
+          strings: $typed.data('typed-items').split(','),
+          loop: true,
+          typeSpeed: 100,
+          backSpeed: 50,
+          backDelay: 2000
+        });
+      }, 300);
+    }
+
+    // Initialize AOS with balanced settings
+    setTimeout(function() {
+      AOS.init({
+        duration: 800,  // Slightly longer for smoother animations
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false
       });
+    }, 100);
 
     // Contact Form Submission
     $("#contact-form").on("submit", function(e) {
@@ -108,15 +98,17 @@ $(function () {
     });
   }
 
-  // Optimized scroll handler using requestAnimationFrame
-  let ticking = false;
+  // Balanced scroll handler with minor throttling
+  let scrollTimeout;
   function handleScroll() {
-    if (!ticking) {
-      requestAnimationFrame(function() {
-        const scrollPos = $window.scrollTop();
-        
-        // Update back to top button visibility
-        $backToTop.toggleClass('active', scrollPos > 100);
+    if (!scrollTimeout) {
+      scrollTimeout = setTimeout(function() {
+        // Update back to top button visibility with smooth transition
+        if ($window.scrollTop() > 100) {
+          $backToTop.addClass('active');
+        } else {
+          $backToTop.removeClass('active');
+        }
         
         // Update navbar active state
         $('.nav-link.scrollto').each(function() {
@@ -124,28 +116,35 @@ $(function () {
           if (section.length) {
             const sectionTop = section.offset().top - 100;
             const sectionBottom = sectionTop + section.outerHeight();
-            $(this).toggleClass('active', scrollPos >= sectionTop && scrollPos < sectionBottom);
+            $(this).toggleClass('active', $window.scrollTop() >= sectionTop && $window.scrollTop() < sectionBottom);
           }
         });
         
-        ticking = false;
-      });
-      ticking = true;
+        scrollTimeout = null;
+      }, 50); // Small timeout for smoother performance
     }
   }
 
-  // Attach scroll handler with throttling
+  // Attach scroll handler
   $window.on('scroll', handleScroll);
 
-  // Initialize critical UI immediately
-  initializeCriticalUI();
+  // Visitor counter with slight delay
+  setTimeout(function() {
+    $.getJSON("https://api.counterapi.dev/v1/personal/visits/up")
+      .done(function(response) {
+        $("#visits").text(response.count);
+      })
+      .fail(function() {
+        $("#visits").text("0");
+      });
+  }, 1000);
 
-  // Initialize non-critical features after window load
-  $window.on('load', function() {
+  // Initialize everything with a small delay to ensure smooth initial load
+  setTimeout(function() {
+    initializeUI();
+    // Trigger initial scroll handler to set correct active states
+    handleScroll();
     // Remove any loading states
     $body.removeClass('loading');
-    
-    // Initialize non-critical features
-    initializeNonCritical();
-  });
+  }, 100);
 });
