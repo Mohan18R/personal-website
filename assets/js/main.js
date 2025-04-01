@@ -85,6 +85,26 @@ $(function () {
     });
   }, 200);
 
+  // About section tabs - FIXED VERSION
+  // Use jQuery approach since the rest of the file uses jQuery
+  $('.tab-btn').on('click', function() {
+    // Get the tab ID from the data-tab attribute
+    const tabId = $(this).attr('data-tab');
+    
+    // Check if the element exists
+    if ($('#' + tabId).length) {
+      // Remove active class from all buttons and tabs
+      $('.tab-btn').removeClass('active');
+      $('.tab-content').removeClass('active');
+      
+      // Add active class to clicked button and corresponding tab
+      $(this).addClass('active');
+      $('#' + tabId).addClass('active');
+    } else {
+      console.error('Tab content not found for ID:', tabId);
+    }
+  });
+  
   // Lazy load visitor counter with error handling
   requestIdleCallback(() => {
     $.getJSON("https://api.counterapi.dev/v1/personal/visits/up", function (response) {
@@ -93,34 +113,7 @@ $(function () {
       $("#visits").text("0");
     });
   });
-// Add this JavaScript to your main.js file or as a script tag at the bottom of your HTML
-document.addEventListener('DOMContentLoaded', function() {
-  // Get all tab buttons and content panes
-  const tabButtons = document.querySelectorAll('.tab-button');
-  
-  // Add click event to each tab button
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Remove active class from all buttons
-      tabButtons.forEach(btn => {
-        btn.classList.remove('active');
-      });
-      
-      // Add active class to clicked button
-      this.classList.add('active');
-      
-      // Hide all tab panes
-      const tabPanes = document.querySelectorAll('.tab-pane');
-      tabPanes.forEach(pane => {
-        pane.classList.remove('active');
-      });
-      
-      // Show the corresponding tab content
-      const tabId = this.getAttribute('data-tab');
-      document.getElementById(tabId).classList.add('active');
-    });
-  });
-});
+
   // Contact Form Submission using Formspree
   $("#contact-form").on("submit", function (e) {
     e.preventDefault(); // Prevent default form submission
