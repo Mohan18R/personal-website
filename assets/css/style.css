@@ -70,6 +70,13 @@ h6 {
   padding: 0 15px;
   background: #040b14;
   overflow-y: auto;
+  /* Hide scrollbar visuals */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+#header::-webkit-scrollbar {      /* Chrome/Safari */
+  width: 0;
+  height: 0;
 }
 
 #header .profile img {
@@ -102,7 +109,7 @@ h6 {
   color: #fff;
   line-height: 1;
   padding: 8px 0;
-  margin-right: 4px;
+  margin-right: 0;
   border-radius: 50%;
   text-align: center;
   width: 36px;
@@ -110,11 +117,29 @@ h6 {
   transition: 0.3s;
 }
 
+#header .profile .social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
 #header .profile .social-links a:hover {
   background: #149ddd;
   color: #fff;
   text-decoration: none;
 }
+
+#header .sidebar-copyright {
+  margin-top: auto;
+  padding: 12px 0 16px 0;
+  text-align: center;
+  color: #a8a9b4;
+  font-size: 12px;
+}
+
 
 #main {
   margin-left: 300px;
@@ -945,17 +970,20 @@ a.underline {
 
 .info-item {
   display: flex;
-  margin-bottom: 20px;
+  gap: 14px;
   align-items: flex-start;
 }
 
 .info-item i {
-  font-size: 24px;
+  font-size: 28px;
   color: #149ddd;
-  margin-right: 15px;
-  background-color: rgba(20, 157, 221, 0.1);
-  padding: 10px;
-  border-radius: 50%;
+}
+
+/* Company logo in Experience */
+.info-item .company-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .info-text h4 {

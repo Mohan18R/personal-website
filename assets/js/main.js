@@ -84,22 +84,28 @@ $(document).ready(function() {
 
   // PROFILE VIEWS - Simple counter that works when deployed
   function updateProfileViews() {
-    // Always try to use the real counter API
+    const safeHostname = window.location.hostname
+      .toLowerCase()
+      .replace(/[^a-z0-9\-\.]/gi, '');
+    const namespace = 'mohan-portfolio-' + (safeHostname || 'local');
+    const url = 'https://api.countapi.xyz/hit/' + namespace + '/visits';
+
     $.ajax({
-      url: "https://api.counterapi.dev/v1/personal/visits/up",
-      method: "GET",
-      dataType: "json",
-      cache: false,
-      success: function(response) {
-        if (response && response.count !== undefined) {
-          $("#visits").text(response.count);
+      url: url,
+      method: 'GET',
+      dataType: 'json',
+      cache: false
+    })
+      .done(function (response) {
+        if (response && response.value !== undefined) {
+          $('#visits').text(response.value);
+          $('.profile-views-section').show();
         }
-      },
-      error: function() {
-        // Keep showing "Loading..." if there's an error
-        // This will be replaced once deployed to production
-      }
-    });
+      })
+      .fail(function () {
+        // Hide the entire section if the counter API fails
+        $('.profile-views-section').remove();
+      });
   }
 
   // ABOUT TABS - Handle tab switching

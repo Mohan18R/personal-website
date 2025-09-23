@@ -13,6 +13,10 @@
   <link href="assets/img/favicon.ico" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   
+  <!-- Performance: Preconnect for Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <!-- Preload Hero Background -->
   <link rel="preload" as="image" href="assets/img/mm.jpg">
   <!-- Open Graph Meta Tags -->
@@ -23,7 +27,7 @@
   <meta property="og:type" content="website" />
   <!-- Google Fonts -->
   <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
@@ -47,7 +51,7 @@
     <div class="d-flex flex-column">
 
       <div class="profile">
-        <img src="assets/img/mohan.jpeg" alt="" class="img-fluid rounded-circle">
+        <img src="assets/img/mohan.jpg" alt="" class="img-fluid rounded-circle" fetchpriority="high" decoding="async">
         <h1 class="text-light">Mohan R</a></h1>
         
         <div class="social-links mt-3 text-center">
@@ -64,7 +68,8 @@
         <ul>
           <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
           <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="#skills" class="nav-link scrollto"><i class="bi bi-laptop"></i> <span>Skills</span></a></li>
+          <li><a href="#experience" class="nav-link scrollto"><i class="bi bi-briefcase"></i> <span>Experience</span></a></li>
+<li><a href="#skills" class="nav-link scrollto"><i class="bi bi-laptop"></i> <span>Skills</span></a></li>
           <!-- <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li> -->
           <li><a href="#projects" class="nav-link scrollto"><i class="bx bx-book-content"></i><span>Projects</span></a>
           </li>
@@ -73,6 +78,9 @@
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
         </ul>
       </nav><!-- .nav-menu -->
+      <div class="sidebar-copyright">
+        <small>© Copyright <strong><span>Mohan R</span></strong></small>
+      </div>
     </div>
   </header><!-- End Header -->
 
@@ -81,8 +89,8 @@
     <div class="hero-container" data-aos="fade-in">
       <h1>Mohan R</h1>
       <p> <span class="typed"
-          data-typed-items="Tech Enthusiast, AI Researcher, Full Stack Developer, Problem Solver"></span></p>
-      <a href="assets/resumee.pdf" download="resume.pdf" class="btn custom-btn">
+          data-typed-items="SAP ABAP Explorer, Full Stack Developer, AI Enthusiast, Problem Solver"></span></p>
+      <a href="assets/resume.pdf" download="resume.pdf" class="btn custom-btn">
         My Resume
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -106,7 +114,7 @@
         <div class="about-container">
           <div class="about-image-container" data-aos="fade-right">
             <div class="about-image-wrapper">
-              <img src="assets/img/mohan.jpeg" alt="Mohan">
+              <img src="assets/img/mohan.jpg" alt="Mohan" loading="lazy" decoding="async">
               <div class="about-social">
                 <a href="https://github.com/Mohan18R" class="social-icon"><i class="bx bxl-github"></i></a>
                 <a href="https://www.linkedin.com/in/mohanr018/" class="social-icon"><i class="bx bxl-linkedin"></i></a>
@@ -119,7 +127,7 @@
             <div class="about-header">
               <h3>👋 Hi, I'm Mohan!</h3>
               <p class="about-tagline">
-                A Computer Science graduate specializing in AI & ML, with full-stack development experience and a passion for building innovative solutions.
+                Graduate Engineer Trainee at HCLTech exploring the SAP ecosystem (ABAP, SAPUI5/Fiori), with a CS background in AI/ML and full‑stack development.
               </p>
             </div>
             
@@ -242,6 +250,29 @@
         </div>
       </div>
     </section><!-- End About Section -->
+
+    <!-- ======= Experience Section ======= -->
+    <section id="experience" class="about">
+      <div class="container">
+        <div class="section-title">
+          <h2>Experience</h2>
+        </div>
+
+        <div class="about-container">
+          <div class="about-content" data-aos="fade-up">
+            <div class="info-item">
+              <img class="company-logo" src="assets/img/hcl.jpg" alt="HCLTech" loading="lazy" decoding="async">
+              <div class="info-text">
+                <h4>Graduate Engineer Trainee — HCLTech</h4>
+                <p>Currently working in the SAP domain, exploring SAP ABAP and related technologies (SAPUI5/Fiori). Building a strong foundation through hands‑on learning, problem solving, and real‑world use cases.</p>
+                <p><strong>Focus</strong>: SAP ABAP fundamentals, object-oriented ABAP, data dictionary, reports, and modern SAP UX concepts.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Experience Section -->
 
     <!-- ======= Skills Section ======= -->
     <section id="skills" class="skills">
@@ -439,7 +470,7 @@
           <!-- Project 1 -->
           <div class="project-card">
             <div class="project-image">
-              <img src="assets/img/ss.png" alt="Aura Cast">
+              <img src="assets/img/ss.png" alt="Aura Cast" loading="lazy" decoding="async">
             </div>
             <div class="project-info">
               <h3 class="project-title">Aura Cast</h3>
@@ -455,7 +486,7 @@
           <!-- Project 2 -->
           <div class="project-card">
             <div class="project-image">
-              <img src="assets/img/Whatsapp_chat_analyzer.png" alt="WhatsApp Chat Analyzer">
+              <img src="assets/img/Whatsapp_chat_analyzer.png" alt="WhatsApp Chat Analyzer" loading="lazy" decoding="async">
       </div>
             <div class="project-info">
               <h3 class="project-title">WhatsApp Chat Analyzer</h3>
@@ -470,7 +501,7 @@
         <!-- Project 3 -->
         <div class="project-card">
           <div class="project-image">
-            <img src="assets/img/vi.png" alt="WhatsApp Chat Analyzer">
+            <img src="assets/img/vi.png" alt="WhatsApp Chat Analyzer" loading="lazy" decoding="async">
     </div>
           <div class="project-info">
             <h3 class="project-title">Virtual Interviewer</h3>
@@ -485,7 +516,7 @@
       <!-- Project 4 -->
       <div class="project-card">
         <div class="project-image">
-          <img src="assets/img/newsnow.png" alt="WhatsApp Chat Analyzer">
+          <img src="assets/img/newsnow.png" alt="WhatsApp Chat Analyzer" loading="lazy" decoding="async">
   </div>
         <div class="project-info">
           <h3 class="project-title">NewsNow</h3>
@@ -500,7 +531,7 @@
     <!-- Project 5 -->
     <div class="project-card">
       <div class="project-image">
-        <img src="assets/img/va.png" alt="WhatsApp Chat Analyzer">
+        <img src="assets/img/va.png" alt="WhatsApp Chat Analyzer" loading="lazy" decoding="async">
 </div>
       <div class="project-info">
         <h3 class="project-title">Virtual Assistant</h3>
@@ -516,7 +547,7 @@
           <!-- Project 6-->
           <div class="project-card">
             <div class="project-image">
-              <img src="assets/img/spotify.jpg" alt="Spotify Playlist Generator">
+              <img src="assets/img/spotify.jpg" alt="Spotify Playlist Generator" loading="lazy" decoding="async">
       </div>
             <div class="project-info">
               <h3 class="project-title">Spotify Playlist</h3>
@@ -557,7 +588,7 @@
                 <!-- Codolio -->
                 <a href="https://codolio.com/profile/Mohanr" target="_blank" class="profile-tile" data-aos="fade-up">
                   <div class="icon-container">
-                    <img src="assets/img/codolio.gif" alt="Codolio">
+                    <img src="assets/img/codolio.gif" alt="Codolio" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">Codolio</div>
@@ -568,7 +599,7 @@
                 <!-- HackerRank -->
                 <a href="https://www.hackerrank.com/mohan0moni" target="_blank" class="profile-tile" data-aos="fade-up" data-aos-delay="100">
                   <div class="icon-container">
-                    <img src="assets/img/hac.png" alt="HackerRank">
+                    <img src="assets/img/hac.png" alt="HackerRank" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">HackerRank</div>
@@ -579,7 +610,7 @@
                 <!-- GeeksforGeeks -->
                 <a href="https://auth.geeksforgeeks.org/user/mohan_r" target="_blank" class="profile-tile" data-aos="fade-up" data-aos-delay="200">
                   <div class="icon-container">
-                    <img src="assets/img/gg.jpg" alt="GeeksforGeeks">
+                    <img src="assets/img/gg.jpg" alt="GeeksforGeeks" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">GeeksforGeeks</div>
@@ -590,7 +621,7 @@
                 <!-- LeetCode -->
                 <a href="https://leetcode.com/mohan0moni/" target="_blank" class="profile-tile" data-aos="fade-up" data-aos-delay="300">
                   <div class="icon-container">
-                    <img src="assets/img/LeetCode.png" alt="LeetCode">
+                    <img src="assets/img/LeetCode.png" alt="LeetCode" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">LeetCode</div>
@@ -601,7 +632,7 @@
                 <!-- CodeChef -->
                 <a href="https://www.codechef.com/users/mohanr01" target="_blank" class="profile-tile" data-aos="fade-up" data-aos-delay="400">
                   <div class="icon-container">
-                    <img src="assets/img/codechef.jpg" alt="CodeChef">
+                    <img src="assets/img/codechef.jpg" alt="CodeChef" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">CodeChef</div>
@@ -612,7 +643,7 @@
                 <!-- Stack Overflow -->
                 <a href="https://stackoverflow.com/users/22709713/mohan-r" target="_blank" class="profile-tile" data-aos="fade-up" data-aos-delay="500">
                   <div class="icon-container">
-                    <img src="assets/img/stackoverflow.png" alt="Stack Overflow">
+                    <img src="assets/img/stackoverflow.png" alt="Stack Overflow" loading="lazy" decoding="async">
                   </div>
                   <div class="profile-details">
                     <div class="profile-name">Stack Overflow</div>
@@ -716,19 +747,19 @@
         class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/typed.js/typed.umd.js"></script>
-    <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js" defer></script>
+    <script src="assets/vendor/aos/aos.js" defer></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js" defer></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
+    <script src="assets/vendor/typed.js/typed.umd.js" defer></script>
+    <script src="assets/vendor/waypoints/noframework.waypoints.js" defer></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js" defer></script>
 
 
     <!-- Template Main JS File -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
     <!-- Swiper CSS -->
 </body>
 

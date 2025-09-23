@@ -1,13 +1,79 @@
-#My Personal Website
+# Modern Portfolio Website
 
-Welcome to my personal website! This project serves as a platform to showcase my skills and knowledge in web development, particularly in the areas of HTML, CSS, JavaScript, and various CSS and JavaScript libraries.
+A modern, responsive portfolio website built with Next.js 14, TypeScript, and Tailwind CSS. Features a beautiful 3D hero section, dark mode support, and smooth animations.
 
-#Key Features
+## Features
 
-HTML: The foundation of this website is built on HTML, ensuring a structured and semantic layout for accessibility and search engine optimization.
+- 🎨 Modern and clean design
+- 🌓 Dark/Light mode
+- 🎭 Smooth animations with Framer Motion
+- 🎮 Interactive 3D elements with Three.js
+- 📱 Fully responsive
+- ⚡ Fast performance with Next.js
+- 🎯 TypeScript for better development experience
+- 🎨 Tailwind CSS for styling
 
-CSS: I have leveraged my expertise in CSS to create visually appealing and responsive designs. Custom CSS styles have been carefully applied to enhance the user experience.
+## Tech Stack
 
-JavaScript: To add interactivity and dynamic elements, I've used JavaScript to create features such as interactive forms, smooth scrolling, and animated transitions.
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Three.js
+- React Three Fiber
+- Next Themes
+- Lucide Icons
 
-You can explore my personal website by visiting https://mohan18r.github.io/personal-website/ Navigate through the pages, check out the projects I've worked on, and learn more about my background and interests.
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/portfolio-nextjs.git
+```
+
+2. Install dependencies:
+```bash
+cd portfolio-nextjs
+npm install
+```
+
+3. Run the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+```
+portfolio-nextjs/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── Hero.tsx
+│   ├── Navbar.tsx
+│   └── theme-provider.tsx
+├── public/
+│   └── assets/
+├── styles/
+│   └── globals.css
+└── package.json
+```
+
+## Customization
+
+1. Update the content in the components to match your information
+2. Modify the theme colors in `globals.css`
+3. Add your own sections and components
+4. Customize the 3D elements in the Hero component
+
+## Deployment
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
