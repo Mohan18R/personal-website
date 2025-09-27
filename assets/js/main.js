@@ -82,82 +82,72 @@ $(document).ready(function() {
     handleScroll();
   });
 
-  // PROFILE VIEWS - Global counter across all devices
+  // PROFILE VIEWS - Using CounterAPI.dev for reliable counting
   function updateProfileViews() {
-    // Show loading state immediately
+    // Show loading state
     $('#visits').text('Loading...');
     $('.profile-views-section').show();
 
-    // Use a reliable global counter API
-    const counterUrl = 'https://api.countapi.xyz/hit/mohan-portfolio-global/visits';
-    const getUrl = 'https://api.countapi.xyz/get/mohan-portfolio-global/visits';
-
-    // Try the counter API
-    tryCountAPI();
-
-    function tryCountAPI() {
+    // CounterAPI.dev implementation - Try multiple approaches
+    const workspaceId = '753';
+    const counterSlug = 'visits';
+    
+    // Try the public API first (no authentication required)
+    $.ajax({
+      url: `https://api.counterapi.dev/hit/${workspaceId}/${counterSlug}`,
+      method: 'GET',
+      dataType: 'json',
+      cache: false,
+      timeout: 10000
+    })
+    .done(function (response) {
+      if (response && response.data !== undefined) {
+        $('#visits').text(response.data);
+        
+        // Add animation effect
+        $('#visits').css({
+          'color': '#149ddd',
+          'font-weight': 'bold',
+          'transition': 'all 0.3s ease'
+        });
+        
+        setTimeout(function() {
+          $('#visits').css({
+            'color': '',
+            'font-weight': '',
+            'transition': ''
+          });
+        }, 1500);
+        
+        console.log('Profile views updated successfully:', response.data);
+      } else {
+        $('#visits').text('Error');
+      }
+    })
+    .fail(function (xhr, status, error) {
+      console.log('Public API failed:', error);
+      
+      // Try v2 API with POST
       $.ajax({
-        url: counterUrl,
-        method: 'GET',
+        url: `https://api.counterapi.dev/v2/workspaces/${workspaceId}/${counterSlug}/hit`,
+        method: 'POST',
         dataType: 'json',
         cache: false,
-        timeout: 8000
+        timeout: 10000
       })
       .done(function (response) {
-        if (response && response.value !== undefined) {
-          $('#visits').text(response.value);
-          
-          // Add a nice animation effect
-          $('#visits').css({
-            'color': '#149ddd',
-            'font-weight': 'bold',
-            'transition': 'all 0.3s ease'
-          });
-          
-          setTimeout(function() {
-            $('#visits').css({
-              'color': '',
-              'font-weight': '',
-              'transition': ''
-            });
-          }, 1500);
-          
-          console.log('Profile views updated successfully:', response.value);
+        if (response && response.data !== undefined) {
+          $('#visits').text(response.data);
         } else {
-          $('#visits').text('Error');
+          $('#visits').text('Counter unavailable');
         }
       })
-      .fail(function (xhr, status, error) {
-        console.log('Counter API failed:', error);
-        
-        // Try to get current count without incrementing
-        $.ajax({
-          url: getUrl,
-          method: 'GET',
-          dataType: 'json',
-          cache: false,
-          timeout: 5000
-        })
-        .done(function (response) {
-          if (response && response.value !== undefined) {
-            $('#visits').text(response.value + ' (read-only)');
-          } else {
-            showFallbackMessage();
-          }
-        })
-        .fail(function () {
-          showFallbackMessage();
-        });
+      .fail(function () {
+        // Final fallback - hide the counter section
+        $('.profile-views-section').hide();
+        console.log('All CounterAPI attempts failed');
       });
-    }
-
-    function showFallbackMessage() {
-      $('#visits').text('Counter unavailable');
-      $('.profile-views-section h1').html(
-        'Profile Views: <span style="color: #999; font-size: 0.8em;">Counter temporarily unavailable</span>'
-      );
-      console.log('All counter APIs failed - showing fallback message');
-    }
+    });
   }
 
   // ABOUT TABS - Handle tab switching
