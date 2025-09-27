@@ -82,54 +82,82 @@ $(document).ready(function() {
     handleScroll();
   });
 
-  // PROFILE VIEWS - Enhanced counter with localStorage fallback
+  // PROFILE VIEWS - Global counter across all devices
   function updateProfileViews() {
-    const storageKey = 'mohan-portfolio-visits';
-    let currentCount = 0;
-    
-    // Get current count from localStorage
-    const storedCount = localStorage.getItem(storageKey);
-    if (storedCount) {
-      currentCount = parseInt(storedCount, 10);
-    }
-    
-    // Increment the count
-    currentCount++;
-    
-    // Update localStorage
-    localStorage.setItem(storageKey, currentCount.toString());
-    
-    // Display the count immediately
-    $('#visits').text(currentCount);
+    // Show loading state immediately
+    $('#visits').text('Loading...');
     $('.profile-views-section').show();
-    
-    // Try to sync with external API (optional)
-    const safeHostname = window.location.hostname
-      .toLowerCase()
-      .replace(/[^a-z0-9\-\.]/gi, '');
-    const namespace = 'mohan-portfolio-' + (safeHostname || 'local');
-    const url = 'https://api.countapi.xyz/hit/' + namespace + '/visits';
 
-    $.ajax({
-      url: url,
-      method: 'GET',
-      dataType: 'json',
-      cache: false,
-      timeout: 5000 // 5 second timeout
-    })
+    // Use a reliable global counter API
+    const counterUrl = 'https://api.countapi.xyz/hit/mohan-portfolio-global/visits';
+    const getUrl = 'https://api.countapi.xyz/get/mohan-portfolio-global/visits';
+
+    // Try the counter API
+    tryCountAPI();
+
+    function tryCountAPI() {
+      $.ajax({
+        url: counterUrl,
+        method: 'GET',
+        dataType: 'json',
+        cache: false,
+        timeout: 8000
+      })
       .done(function (response) {
         if (response && response.value !== undefined) {
-          // Update with API value if it's higher than local count
-          if (response.value > currentCount) {
-            $('#visits').text(response.value);
-            localStorage.setItem(storageKey, response.value.toString());
-          }
+          $('#visits').text(response.value);
+          
+          // Add a nice animation effect
+          $('#visits').css({
+            'color': '#149ddd',
+            'font-weight': 'bold',
+            'transition': 'all 0.3s ease'
+          });
+          
+          setTimeout(function() {
+            $('#visits').css({
+              'color': '',
+              'font-weight': '',
+              'transition': ''
+            });
+          }, 1500);
+          
+          console.log('Profile views updated successfully:', response.value);
+        } else {
+          $('#visits').text('Error');
         }
       })
-      .fail(function () {
-        // Keep using localStorage value - don't hide the section
-        console.log('Profile views counter: Using localStorage fallback');
+      .fail(function (xhr, status, error) {
+        console.log('Counter API failed:', error);
+        
+        // Try to get current count without incrementing
+        $.ajax({
+          url: getUrl,
+          method: 'GET',
+          dataType: 'json',
+          cache: false,
+          timeout: 5000
+        })
+        .done(function (response) {
+          if (response && response.value !== undefined) {
+            $('#visits').text(response.value + ' (read-only)');
+          } else {
+            showFallbackMessage();
+          }
+        })
+        .fail(function () {
+          showFallbackMessage();
+        });
       });
+    }
+
+    function showFallbackMessage() {
+      $('#visits').text('Counter unavailable');
+      $('.profile-views-section h1').html(
+        'Profile Views: <span style="color: #999; font-size: 0.8em;">Counter temporarily unavailable</span>'
+      );
+      console.log('All counter APIs failed - showing fallback message');
+    }
   }
 
   // ABOUT TABS - Handle tab switching
