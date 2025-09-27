@@ -12,60 +12,66 @@ A fast, responsive single‑page portfolio for Mohan R. Built with vanilla HTML/
 - Contact
 
 ## Tech Stack
-- HTML5, CSS3
-- Bootstrap 5 (layout/components)
-- AOS (scroll animations)
-- Swiper, GLightbox (optional vendor effects)
-- Typed.js (typewriter hero)
-- jQuery (DOM helpers)
 
-## Getting Started (Local)
-- Open `index.html` directly in a browser.
-- Or serve locally for cleaner routing:
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Three.js
+- React Three Fiber
+- Next Themes
+- Lucide Icons
+
+## Getting Started
+
+1. Clone the repository:
 ```bash
-# from the personal-website directory
-python -m http.server 8080  # or any static server
-# visit http://localhost:8080
+git clone https://github.com/yourusername/portfolio-nextjs.git
 ```
 
-## Deploy
-### GitHub Pages
-1. Push this `personal-website` folder to a repo (e.g., `Mohan18R/personal-website`).
-2. In GitHub → Settings → Pages → Source: `main` branch, root (or `/docs` if you move files).
-3. Your site will be available at `https://<username>.github.io/<repo>/`.
+2. Install dependencies:
+```bash
+cd portfolio-nextjs
+npm install
+```
 
-### Any Static Host
-Upload the contents of `personal-website/` to Netlify, Vercel (static), Cloudflare Pages, or your server.
+3. Run the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+```
+portfolio-nextjs/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── Hero.tsx
+│   ├── Navbar.tsx
+│   └── theme-provider.tsx
+├── public/
+│   └── assets/
+├── styles/
+│   └── globals.css
+└── package.json
+```
 
 ## Customization
-- Profile image: `assets/img/mohan.jpg`
-- HCLTech logo in Experience: `assets/img/hcl.jpg` (40×40 displayed)
-- Hero typed text: in `index.html` (`data-typed-items` on `.typed` span)
-- Skills icons: in the Skills section (SVGs via CDN)
-- Projects: edit cards under `#projects`
-- Social links: header profile → `.social-links`
-- Favicon set: `favicon.ico`, `apple-touch-icon.png`, etc. Cache‑busting query `?v=2` is added in `<head>`; update version if you replace icons
 
-## Performance Tweaks
-- Deferred all vendor and main JS
-- Preconnect to Google Fonts + `&display=swap`
-- Lazy‑load non‑critical images (`loading="lazy"` + `decoding="async"`)
-- Prioritized sidebar avatar image (`fetchpriority="high"`)
-- Hidden sidebar scrollbar track for cleaner UI
+1. Update the content in the components to match your information
+2. Modify the theme colors in `globals.css`
+3. Add your own sections and components
+4. Customize the 3D elements in the Hero component
 
-## Profile Views Counter
-- Implemented with `countapi.xyz` in `assets/js/main.js`
-- If the API fails (e.g., blocked), the `Profile Views` section auto‑hides to avoid broken UI
+## Deployment
 
-## Ordering and Navigation
-- Navbar and page order: About → Experience → Skills → Projects → Coding Profiles → Contact
-- Smooth scrolling + active link highlighting handled in `assets/js/main.js`
-
-## Development Notes
-- Styles live in `assets/css/style.css`
-- Behavior in `assets/js/main.js`
-- Vendor assets in `assets/vendor/`
-- Keep indentation and formatting consistent with current files
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
 ## License
-This site content is © Mohan R. You may reuse the structure with attribution; replace content and assets with your own.
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
