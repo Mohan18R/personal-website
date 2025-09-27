@@ -82,8 +82,28 @@ $(document).ready(function() {
     handleScroll();
   });
 
-  // PROFILE VIEWS - Simple counter that works when deployed
+  // PROFILE VIEWS - Enhanced counter with localStorage fallback
   function updateProfileViews() {
+    const storageKey = 'mohan-portfolio-visits';
+    let currentCount = 0;
+    
+    // Get current count from localStorage
+    const storedCount = localStorage.getItem(storageKey);
+    if (storedCount) {
+      currentCount = parseInt(storedCount, 10);
+    }
+    
+    // Increment the count
+    currentCount++;
+    
+    // Update localStorage
+    localStorage.setItem(storageKey, currentCount.toString());
+    
+    // Display the count immediately
+    $('#visits').text(currentCount);
+    $('.profile-views-section').show();
+    
+    // Try to sync with external API (optional)
     const safeHostname = window.location.hostname
       .toLowerCase()
       .replace(/[^a-z0-9\-\.]/gi, '');
@@ -94,17 +114,21 @@ $(document).ready(function() {
       url: url,
       method: 'GET',
       dataType: 'json',
-      cache: false
+      cache: false,
+      timeout: 5000 // 5 second timeout
     })
       .done(function (response) {
         if (response && response.value !== undefined) {
-          $('#visits').text(response.value);
-          $('.profile-views-section').show();
+          // Update with API value if it's higher than local count
+          if (response.value > currentCount) {
+            $('#visits').text(response.value);
+            localStorage.setItem(storageKey, response.value.toString());
+          }
         }
       })
       .fail(function () {
-        // Hide the entire section if the counter API fails
-        $('.profile-views-section').remove();
+        // Keep using localStorage value - don't hide the section
+        console.log('Profile views counter: Using localStorage fallback');
       });
   }
 
